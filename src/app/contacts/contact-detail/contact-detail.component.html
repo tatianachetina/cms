@@ -1,0 +1,44 @@
+<div class="row">
+  <div class="col-xs-12">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <div class="row">
+          <span class="pull-left">
+            <a> {{contact.name}} </a>
+          </span>
+          </div>
+          <div class="row">
+            <div class="col.xs.6">
+              <span class="pull-left">
+                <img
+                  src={{contact.imageUrl}}
+                  alt={{contact.name}}
+                  class="img-responsive"
+                  style="max-height: 50px;">
+              </span>
+              <div class="pull-right">
+                <span>
+                  <button class="btn btn-primary" type="submit"> Edit </button>
+                </span>
+                <span>
+                  <button class="btn btn-danger" type="button"> Delete </button>
+                </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="panel-body">
+          <div class="row">
+            <a > Email: {{contact.email}}</a>
+          </div>
+          <div class="row">
+            <a> Phone: {{contact.phone}}</a>
+          </div>
+      </div>
+    </div>
+  </div>    
+</div>
+  
+ 
+  
+  
