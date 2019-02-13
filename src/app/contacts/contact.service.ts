@@ -1,9 +1,14 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { Contact} from './contacts.model';
 import { MOCKCONTACTS } from './MOCKCONTACTS';
+import { TNodeProviderIndexes } from '@angular/core/src/render3/interfaces/node';
 
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+}
+
+)
 export class ContactService {
   contactSelectedEvent = new EventEmitter<Contact>();
      

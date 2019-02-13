@@ -3,7 +3,9 @@ import { Document } from './document.model'
 import { MOCKDOCUMENTS } from './MOCKDOCUMENTS';
 
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+  })
 export class DocumentService {
     documentSelectedEvent = new EventEmitter<Document>();
      

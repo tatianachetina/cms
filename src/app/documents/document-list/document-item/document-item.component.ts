@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Document } from '../../document.model';
 import { DocumentService } from '../../documents.service';
 
@@ -9,15 +9,17 @@ import { DocumentService } from '../../documents.service';
 })
 export class DocumentItemComponent implements OnInit {
   @Input() document: Document;
+  // @Output () documentSelected = new EventEmitter<void>();
 
-  constructor(private documentService: DocumentService) { }
+  constructor() { }
 
   ngOnInit() {
   }
 
-  onSelected() {
-    this.documentService.documentSelectedEvent.emit(this.document);
-  }
+  // onSelected() {
+  //   this.documentSelected.emit();
+  //   // console.log(this.document);
+  // }
 
 }
  

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Injectable } from '@angular/core';
 
 import { Document } from './document.model';
 import { DocumentService } from './documents.service';
@@ -7,7 +7,6 @@ import { DocumentService } from './documents.service';
   selector: 'cms-documents',
   templateUrl: './documents.component.html',
   styleUrls: ['./documents.component.css'],
-  providers : [DocumentService]
 })
 export class DocumentsComponent implements OnInit {
   selectedDocument: Document;
