@@ -1,7 +1,7 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { Contact} from './contacts.model';
 import { MOCKCONTACTS } from './MOCKCONTACTS';
-import { TNodeProviderIndexes } from '@angular/core/src/render3/interfaces/node';
+
 
 
 @Injectable({
@@ -11,8 +11,9 @@ import { TNodeProviderIndexes } from '@angular/core/src/render3/interfaces/node'
 )
 export class ContactService {
   contactSelectedEvent = new EventEmitter<Contact>();
-     
-    contacts: Contact[] = [];
+  contactChangedEvent = new EventEmitter<Contact[]>();  
+    
+  contacts: Contact[] = [];
 
     constructor() {
         this.contacts = MOCKCONTACTS;
@@ -31,5 +32,19 @@ export class ContactService {
           }
         }
         return null;
+    }
+
+    deleteContact(contact: Contact) { 
+      if (contact === null) {
+        return;
       }
+
+      const pos = this.contacts.indexOf(contact);
+      if (pos < 0) {
+          return;
+      }
+
+      this.contacts.splice(pos, 1);
+      this.contactChangedEvent.emit(this.contacts.slice());
+    }
 }
