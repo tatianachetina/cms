@@ -1,6 +1,7 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { Contact} from './contacts.model';
 import { MOCKCONTACTS } from './MOCKCONTACTS';
+import { Subject } from 'rxjs';
 
 
 
@@ -12,11 +13,15 @@ import { MOCKCONTACTS } from './MOCKCONTACTS';
 export class ContactService {
   contactSelectedEvent = new EventEmitter<Contact>();
   contactChangedEvent = new EventEmitter<Contact[]>();  
+  contactListChangedEvent = new Subject<Contact[]>();
     
   contacts: Contact[] = [];
+  maxContactId: number;
+  contactsListClone: Contact[];
 
     constructor() {
         this.contacts = MOCKCONTACTS;
+        this.maxContactId = this.getMaxId();
     }
 
     getContacts(): Contact[] {
@@ -35,7 +40,7 @@ export class ContactService {
     }
 
     deleteContact(contact: Contact) { 
-      if (contact === null) {
+      if (contact == null || contact == undefined) {
         return;
       }
 
@@ -44,7 +49,53 @@ export class ContactService {
           return;
       }
 
-      this.contacts.splice(pos, 1);
-      this.contactChangedEvent.emit(this.contacts.slice());
+      this.contactsListClone = this.contacts.slice();
+      this.contactListChangedEvent.next(this.contactsListClone);
+    }
+
+    getMaxId(): number {
+
+      let maxId = 0
+  
+      for (let i =0;  i < this.contacts.length; i++) {
+        let currentId = +this.contacts[i].id;
+  
+        if (currentId > maxId) {
+          maxId = currentId;
+        }
+      }
+  
+      return maxId;
+    }
+
+    addContact(newContact: Contact) {
+      
+      if (newContact == undefined || newContact == null) {
+        return;
+      }
+
+      this.maxContactId++
+      newContact.id = this.maxContactId.toString();
+      this.contacts.push(newContact);
+      this.contactsListClone = this.contacts.slice();
+      this.contactListChangedEvent.next(this.contactsListClone);
+}
+
+    updateDocument(originalContact: Contact, newContact: Contact) {
+      if (originalContact == undefined || originalContact == null 
+        || newContact == undefined || newContact ==  null) {
+          return;
+        }
+      
+
+      var pos = this.contacts.indexOf(originalContact)
+      if (pos < 0) {
+          return;
+      }
+
+      newContact.id = originalContact.id
+      this.contacts[pos] = newContact
+      this.contactsListClone = this.contacts.slice()
+      this.contactListChangedEvent.next(this.contactsListClone)
     }
 }

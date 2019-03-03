@@ -1,8 +1,8 @@
 import { Component, OnInit, Injectable } from '@angular/core';
 
-import { Document } from './document.model';
-import { DocumentService } from './documents.service';
-import { ActivatedRoute } from '@angular/router';
+//import { Document } from './document.model';
+//import { DocumentService } from './documents.service';
+//import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'cms-documents',
@@ -10,19 +10,21 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./documents.component.css'],
 })
 export class DocumentsComponent implements OnInit {
-  selectedDocument: Document;
+  //selectedDocument: Document;
 
-  constructor(private documentService: DocumentService) {
+  constructor(
+    //private documentService: DocumentService
+    ) {
 
     }
 
   ngOnInit() {
-    this.documentService.documentSelectedEvent
-    .subscribe(
-      (document: Document) => {
-        this.selectedDocument = document;
-      }
-    );
+    // this.documentService.documentSelectedEvent
+    // .subscribe(
+    //   (document: Document) => {
+    //     this.selectedDocument = document;
+    //   }
+    // );
   }
 
 }
