@@ -2,6 +2,7 @@ import { EventEmitter, Injectable } from '@angular/core';
 import { Document } from './document.model'
 import { MOCKDOCUMENTS } from './MOCKDOCUMENTS';
 import { Subject } from 'rxjs';
+import {HttpClient, HttpHeaders, HttpResponse} from "@angular/common/http";
 
 @Injectable({
     providedIn: 'root'
@@ -15,16 +16,35 @@ export class DocumentService {
     maxDocumentId: number;
     documentsListClone: Document[];
   
-
-    constructor() {
+    constructor(private httpClient: HttpClient, private documentService: DocumentService) {
         this.documents = MOCKDOCUMENTS;
         this.maxDocumentId = this.getMaxId();
+        this.getDocuments();
 
     }
 
-    getDocuments(): Document[] {
-        return this.documents.slice();
+    // getDocuments(): Document[] {
+    //     return this.documents.slice();
+    // }
+  
+
+  getDocuments() {
+    this.httpClient.get('https://rkjcms-f94a6.firebaseio.com/documents.json')
+      .subscribe(
+        (documents: Document[]) => {
+          this.documents = documents;
+          this.maxDocumentId = this.getMaxId();
+          this.documentListChangedEvent.next(this.documents.slice());
+        }
+      );
+    //error function
+    (error: any) => {
+      console.log(error);
     }
+    return this.documents.slice();
+  }
+  
+
 
     getDocument(id: string): Document {
         for (let i = 0; i < this.documents.length; i++) {
@@ -47,7 +67,8 @@ export class DocumentService {
         }
 
         this.documentsListClone = this.documents.slice();
-        this.documentListChangedEvent.next(this.documentsListClone);
+        //this.documentListChangedEvent.next(this.documentsListClone);
+        this.storeDocuments();
     }
 
     getMaxId(): number {
@@ -75,7 +96,8 @@ export class DocumentService {
       newDocument.id = this.maxDocumentId.toString();
       this.documents.push(newDocument);
       this.documentsListClone = this.documents.slice();
-      this.documentListChangedEvent.next(this.documentsListClone);
+      //this.documentListChangedEvent.next(this.documentsListClone);
+       this.storeDocuments()
 }
 
     updateDocument(originalDocument: Document, newDocument: Document) {
@@ -93,7 +115,21 @@ export class DocumentService {
       newDocument.id = originalDocument.id
       this.documents[pos] = newDocument
       this.documentsListClone = this.documents.slice()
-      this.documentListChangedEvent.next(this.documentsListClone)
+      //this.documentListChangedEvent.next(this.documentsListClone)
+      this.storeDocuments()
     }
 
+    storeDocuments() {
+      JSON.stringify(this.documents);
+      const headers = new HttpHeaders({
+        "Content-Type":"application/json"
+      });
+      
+      this.httpClient.put('https://rkjcms-f94a6.firebaseio.com/documents.json', this.documents, {headers: headers})
+      .subscribe(
+        () => {
+          const documentListClone = this.documents.slice();
+          this.documentListChangedEvent.next(documentListClone);
+      });
+  }
 }

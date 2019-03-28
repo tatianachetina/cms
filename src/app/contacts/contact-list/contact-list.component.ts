@@ -13,6 +13,11 @@ export class ContcatListComponent implements OnInit, OnDestroy {
  
   contacts: Contact[] = [];
   private subscription: Subscription;
+  term: string = '';
+
+
+
+  
 
   constructor(private contactService: ContactService) { 
   }
@@ -25,7 +30,7 @@ export class ContcatListComponent implements OnInit, OnDestroy {
   //   this.contactService.contactSelectedEvent.emit(contact);
   // }
 
-  this.subscription = this.contactService.contactChangedEvent
+  this.subscription = this.contactService.contactListChangedEvent
     .subscribe(
       (contact: Contact[]) => {
         this.contacts = contact;
@@ -37,5 +42,7 @@ export class ContcatListComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
   
-
+  onKeyPress(searchTerm: string ) {
+    this.term = searchTerm;
+  }
 }

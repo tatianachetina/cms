@@ -81,7 +81,7 @@ export class ContactService {
       this.contactListChangedEvent.next(this.contactsListClone);
 }
 
-    updateDocument(originalContact: Contact, newContact: Contact) {
+    updateContact(originalContact: Contact, newContact: Contact) {
       if (originalContact == undefined || originalContact == null 
         || newContact == undefined || newContact ==  null) {
           return;
