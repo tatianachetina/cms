@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { Message } from '../message.model';
 import { MessageService } from '../messages.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'cms-message-list',
@@ -10,6 +11,7 @@ import { MessageService } from '../messages.service';
 })
 export class MessageListComponent implements OnInit {
   messages: Message[] = [];
+  subscription: Subscription;
 
   constructor(private messageService: MessageService) { }
 
